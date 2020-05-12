@@ -57,6 +57,8 @@ public class GPDispatcherServlet extends HttpServlet {
         initThemeResolver(context);//主题解析
         /**我们自己会实现*/
         //GPHandlerMapping 用来保存Controller 中的配置的RequestMapping 和Method 的对应关系
+
+        initHandlerMapping(context);
         // HandlerAdapter来实现匹配Method,参数，包括类转换，动态赋值
         initHandlerAdapters(context);//通过HandlerAdapter进行多类型的参数动态匹配
         initHandlerExceptionResolvers(context);// 通过HandlerAdapter进行多种类型的参数动态匹配
@@ -128,17 +130,19 @@ public class GPDispatcherServlet extends HttpServlet {
                 // 到Mvc层，对外提供了一个方法只有一个getBean()方法
                 // 返回的对象不是BeanWrapper，怎么办
                 Object controller = context.getBean(beanName);
+                log.info(" ====url======beanName==="+beanName);
                 // Object controller = GPAopUtils.getTargetObject(proxy);
-                Class<?> clazz = context.getClass();
+                Class<?> clazz = controller.getClass();
                 if (!clazz.isAnnotationPresent(GPController.class)) {
                     continue;
                 }
+
+                log.info(" ==-----------------------------==="+beanName);
                 String baseUrl = "";
                 if (clazz.isAnnotationPresent(GPRequestMapping.class)) {
                     GPRequestMapping requestMapping = clazz.getAnnotation(GPRequestMapping.class);
                     baseUrl = requestMapping.value();
                     //扫描所有的public方法
-
                 }
                 Method[] methods = clazz.getMethods();
                 for (Method method : methods) {
@@ -148,6 +152,7 @@ public class GPDispatcherServlet extends HttpServlet {
                     GPRequestMapping requestMapping = method.getAnnotation(GPRequestMapping.class);
                     String regex = ("/" + baseUrl + requestMapping.value().replaceAll("\\*", ".")).replaceAll("/+", "/");
                     Pattern pattern = Pattern.compile(regex);
+                    log.info("url pattern :" +regex );
                     this.handlerMappings.add(new GPHandlerMapping(controller, method, pattern));
                     log.info("Mapping :" + regex + "," + method);
                 }
@@ -221,7 +226,7 @@ public class GPDispatcherServlet extends HttpServlet {
         }
         String url = req.getRequestURI();
         String contextPath = req.getContextPath();
-        url = url.replaceAll(contextPath, "").replaceAll("/+", "");
+        url = url.replaceAll(contextPath, "").replaceAll("/+", "/");
         for (GPHandlerMapping handler : this.handlerMappings) {
             Matcher matcher = handler.getPattern().matcher(url);
             if (!matcher.matches()) {

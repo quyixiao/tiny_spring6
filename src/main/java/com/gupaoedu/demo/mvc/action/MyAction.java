@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @GPController
-@GPRequestMapping("/web")
+@GPRequestMapping("/web/")
 public class MyAction {
 
     @GPAutowired
