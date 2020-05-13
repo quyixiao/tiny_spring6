@@ -97,28 +97,29 @@ public class GPAdvisedSupport {
                 log.info("parse aop methodString :" +  methodString);
                 Matcher matcher = pattern.matcher(methodString);
                 if(matcher.matches()){
+                    //创建一个Advivce
+                    Object aspectTarget = aspectClass.newInstance();
                     log.info("parse aop this.targetClass :" +  this.targetClass.getName() + ",method :" + m.getName());
                     //执行器链
                     List<Object> advices = new LinkedList<Object>();
                     //把每一个方法包装成 MethodIterceptor
                     //before
                     if(!(null == config.getAspectBefore() || "".equals(config.getAspectBefore()))) {
-                        //创建一个Advivce
-                        Object aspectTarget = aspectClass.newInstance();
+
                         advices.add(new GPMethodBeforeAdviceInterceptor(aspectMethods.get(config.getAspectBefore()),aspectTarget));
                         log.info("parse aop advices add before :" + aspectTarget.getClass().getName() + ",aspectTarget :" + aspectTarget);
                     }
                     //after
                     if(!(null == config.getAspectAfter() || "".equals(config.getAspectAfter()))) {
                         //创建一个Advivce
-                        Object aspectTarget = aspectClass.newInstance();
+                       // Object aspectTarget = aspectClass.newInstance();
                         advices.add(new GPAfterReturningAdviceInterceptor(aspectMethods.get(config.getAspectAfter()),aspectTarget));
                         log.info("parse aop advices add after :" + aspectTarget.getClass().getName() + ",aspectTarget :" + aspectTarget);
                     }
                     //afterThrowing
                     if(!(null == config.getAspectAfterThrow() || "".equals(config.getAspectAfterThrow()))) {
                         //创建一个Advivce
-                        Object aspectTarget = aspectClass.newInstance();
+                        //Object aspectTarget = aspectClass.newInstance();
                         GPAfterThrowingAdviceInterceptor throwingAdvice =
                         new GPAfterThrowingAdviceInterceptor(
                                 aspectMethods.get(config.getAspectAfterThrow()),
