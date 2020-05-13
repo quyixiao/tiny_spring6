@@ -7,6 +7,8 @@ import com.gupaoedu.framework.annotation.GPController;
 import com.gupaoedu.framework.annotation.GPRequestMapping;
 import com.gupaoedu.framework.annotation.GPRequestParam;
 import com.gupaoedu.framework.webmvc.GPModelAndView;
+import lombok.extern.slf4j.Slf4j;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import java.io.IOException;
 
 @GPController
 @GPRequestMapping("/web/")
+@Slf4j
 public class MyAction {
 
     @GPAutowired
@@ -26,6 +29,7 @@ public class MyAction {
     @GPRequestMapping("query")
     public GPModelAndView query(HttpServletRequest req, HttpServletResponse resp, @GPRequestParam("name") String name) {
         String result = queryService.query(name);
+        log.info(" 调用查询 方法 ：" + result);
         return out(resp, result);
     }
 

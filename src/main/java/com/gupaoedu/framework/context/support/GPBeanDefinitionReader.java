@@ -14,7 +14,6 @@ import java.util.Properties;
 
 
 @Slf4j
-
 public class GPBeanDefinitionReader {
 
     private List<String> registyBeanClasses = new ArrayList<>();

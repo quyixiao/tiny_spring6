@@ -11,7 +11,7 @@ import java.util.Map;
 
 
 @GPService
-public class QuerySerivceImpl implements QueryService {
+public class QueryServiceImpl implements QueryService {
     @Override
     public String query(String name) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

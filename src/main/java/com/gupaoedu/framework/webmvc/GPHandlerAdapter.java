@@ -86,15 +86,25 @@ public class GPHandlerAdapter {
     }
 
 
-    private Object caseStringValue(String value, Class<?> clazz) {
-        if (clazz == String.class) {
+    private Object caseStringValue(String value, Class<?> paramsType) {
+        if(String.class == paramsType){
             return value;
-        } else if (clazz == Integer.class) {
+        }
+        //如果是int
+        if(Integer.class == paramsType){
             return Integer.valueOf(value);
-        } else if (clazz == int.class) {
-            return Integer.valueOf(value).intValue();
-        } else {
+        }
+        else if(Double.class == paramsType){
+            return Double.valueOf(value);
+        }else {
+            if(value != null){
+                return value;
+            }
             return null;
         }
+        //如果还有double或者其他类型，继续加if
+        //这时候，我们应该想到策略模式了
+        //在这里暂时不实现，希望小伙伴自己来实现
+
     }
 }
