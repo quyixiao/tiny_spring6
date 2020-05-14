@@ -10,11 +10,6 @@ public class Order {
         return propertyName + " " + (ascending  ? " asc " : " desc ");
     }
 
-
-
-
-
-
     protected Order(String propertyName ,boolean ascending){
 
     }
