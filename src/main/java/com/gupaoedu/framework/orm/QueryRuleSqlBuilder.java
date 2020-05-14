@@ -32,6 +32,20 @@ public class QueryRuleSqlBuilder {
         for (QueryRule.Rule rule : (List<QueryRule.Rule>) queryRule.getRuleList()) {
             switch (rule.getType()) {
                 case QueryRule.BETWEEN:
+                    processBetween(rule);
+                    break;
+                case QueryRule.EQ:
+                    processEqual(rule);
+                    break;
+                case QueryRule.LIKE:
+                    processLike(rule);
+                    break;
+                case QueryRule.NOTEQ:
+                    processNotEqual(rule);
+                    break;
+                case QueryRule.GT:
+                    processGreaterThen(rule);
+                    break;
 
             }
         }
