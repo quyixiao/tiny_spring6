@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class QueryRule<T> implements Serializable {
-
-
     private static final long serialVersionUID = 1l;
-
     public static final int ASC_ORDER = 101;
     public static final int DESC_ORDER = 102;
     public static final int LIKE = 1;
@@ -30,8 +27,11 @@ public abstract class QueryRule<T> implements Serializable {
     public static final int ISNOTEMPTY = 14;
     public static final int AND = 201;
     public static final int OR = 202;
+
     private List<Rule> ruleList = new ArrayList<>();
+
     private List<QueryRule> queryRuleList = new ArrayList<>();
+
     private String propertyName;
 
     private QueryRule() {
@@ -237,25 +237,25 @@ public abstract class QueryRule<T> implements Serializable {
     }
 
     @Data
-    protected class Rule implements Serializable {
+    public class Rule implements Serializable {
         private static final long serialVersionUID = 5018778263991487423L;
-        private int ascending; // 升序还是降序
+        private int type; // 升序还是降序
         private String propertyName;// 哪个字段升序，哪个字段降序
         private Object[] values;// 哪个字段升序，哪个字段降序
         private int andOr = AND;
 
         public Rule(int ascending, String propertyName, Object[] values) {
-            this.ascending = ascending;
+            this.type = ascending;
             this.propertyName = propertyName;
             this.values = values;
         }
 
         public String toString() {
-            return propertyName + " " + ascending;
+            return propertyName + " " + type;
         }
 
-        public Rule(int ascending, String propertyName) {
-            this.ascending = ascending;
+        public Rule(int type, String propertyName) {
+            this.type = type;
             this.propertyName = propertyName;
         }
 
@@ -264,7 +264,6 @@ public abstract class QueryRule<T> implements Serializable {
             return this;
         }
     }
-
 
 
 }
